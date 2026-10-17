@@ -1,0 +1,38 @@
+{
+  "description": "返答を日本語に保つ。UserPromptSubmit で念を押し、PreToolUse でツール直前の英語の一言を止め、Stop で英語の返答を書き直させる。",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/remind-japanese.sh\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/check-midturn-japanese.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/check-reply-japanese.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

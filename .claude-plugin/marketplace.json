@@ -1,0 +1,13 @@
+{
+  "name": "claude-skills",
+  "owner": {
+    "name": "LIFE SCAPE, K.K."
+  },
+  "plugins": [
+    {
+      "name": "japanese-reply",
+      "source": "./plugins/japanese-reply",
+      "description": "Claude Code の返答を日本語に保つフック"
+    }
+  ]
+}

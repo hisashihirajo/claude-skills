@@ -1,0 +1,10 @@
+{
+  "name": "japanese-reply",
+  "version": "1.0.0",
+  "description": "Claude Code の返答を日本語に保つフック。入力のたびの念押し、ツール直前の一言の検査、返答の書き終わりの検査の3段で、英語に流れた返答を止めて書き直させる。",
+  "author": {
+    "name": "LIFE SCAPE, K.K."
+  },
+  "license": "MIT",
+  "keywords": ["japanese", "language", "hooks"]
+}
