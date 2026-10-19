@@ -1,0 +1,17 @@
+{
+  "description": "DB の削除、Docker のボリューム削除、git push --force / clean、本番サーバの直接編集を PreToolUse で止める。",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/block-destructive.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

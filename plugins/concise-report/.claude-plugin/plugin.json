@@ -1,0 +1,10 @@
+{
+  "name": "concise-report",
+  "version": "1.0.0",
+  "description": "Claude Code の返答が長すぎたら止めて、結果だけの短い報告に書き直させるフック。",
+  "author": {
+    "name": "LIFE SCAPE, K.K."
+  },
+  "license": "MIT",
+  "keywords": ["report", "length", "hooks"]
+}

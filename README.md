@@ -7,6 +7,9 @@ Claude Code 用のプラグインとスキルをまとめたリポジトリで�
 | 名前 | 内容 |
 |---|---|
 | [japanese-reply](plugins/japanese-reply/) | Claude Code の返答を日本語に保つフック |
+| [concise-report](plugins/concise-report/) | 返答が長すぎたら止めて、結果だけの短い報告に書き直させるフック |
+| [verified-fix](plugins/verified-fix/) | 「直しました」と報告するなら、同じ条件で確かめた事実を書かせるフック |
+| [block-destructive](plugins/block-destructive/) | DB の削除・git push --force・本番の直接編集などを実行前に止めるフック |
 
 ## インストール
 

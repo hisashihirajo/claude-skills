@@ -1,0 +1,10 @@
+{
+  "name": "verified-fix",
+  "version": "1.0.0",
+  "description": "「直しました」と報告するなら、ユーザーと同じ条件で確かめた事実を書かせるフック。確かめていなければ言い切らせない。",
+  "author": {
+    "name": "LIFE SCAPE, K.K."
+  },
+  "license": "MIT",
+  "keywords": ["verification", "report", "hooks"]
+}

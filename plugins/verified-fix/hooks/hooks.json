@@ -1,0 +1,16 @@
+{
+  "description": "「直しました」と報告する返答に、同じ条件で確かめた事実（確認: / 未確認: の行）が無ければ Stop で止める。",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/check-fix-claim.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
