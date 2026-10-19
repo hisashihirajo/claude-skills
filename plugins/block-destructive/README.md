@@ -21,6 +21,12 @@ DB のクライアント（psql など）に渡す形か、コマンドの先頭
 export BLOCK_DESTRUCTIVE_SSH_HOSTS="prod web1"
 ```
 
+## 限界
+
+コマンドの文字列で見分けているので、すり抜ける書き方はあります。
+スクリプトのファイルの中で実行する削除、SQL ファイルの中身、別名を付けたコマンドなどは止まりません。
+権限を制限する仕組みではなく、うっかりを止める安全柵として使ってください。
+
 ## インストール
 
 ```
@@ -45,3 +51,4 @@ sh plugins/block-destructive/tests/run.sh
 
 A PreToolUse hook for Bash that denies irreversible commands before they run: `DROP DATABASE`, `DROP SCHEMA ... CASCADE` and `TRUNCATE` sent to a DB client, `docker volume rm/prune`, `docker system prune`, `git push --force`, `git clean -f`, and in-place edits on production hosts over ssh (set `BLOCK_DESTRUCTIVE_SSH_HOSTS`).
 Text that merely mentions `DROP` (inside `echo`, drafts) is not blocked.
+This is string matching, not a permission boundary: commands run from script files, SQL files, or aliases can slip through.

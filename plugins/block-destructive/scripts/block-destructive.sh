@@ -2,7 +2,8 @@
 # PreToolUse（Bash）。取り返しがつかない操作だけを、実行する前に止める。
 #
 # 文章で書いた決まりは、長い作業の終盤や急いでいるときほど守られない。
-# 消す・上書きする・本番を直接触る、の3種類だけを、ここで確実に止める。
+# 消す・上書きする・本番を直接触る、の3種類だけを、コマンドの文字列で見分けて止める。
+# 文字列の照合なので、スクリプトの中で実行するものや、別の書き方をしたものは止まらない（権限の境界ではない）。
 #
 # 止めるもの
 #   1) DB を消す・空にする（DROP DATABASE / DROP SCHEMA ... CASCADE / TRUNCATE）
@@ -13,7 +14,7 @@
 
 set -u
 
-cmd=$(head -c 200000 | python3 -c 'import json, sys
+cmd=$(python3 -c 'import json, sys
 try:
     print((json.load(sys.stdin).get("tool_input") or {}).get("command") or "")
 except ValueError:
@@ -49,11 +50,11 @@ if printf '%s' "$cmd" | grep -qE 'docker[[:space:]]+(volume[[:space:]]+(rm|prune
 fi
 
 # 3) git の取り返しがつかない操作
-if printf '%s' "$cmd" | grep -qE 'git[[:space:]]+push[[:space:]]+[^|;&]*(--force|-f)([[:space:]]|$)'; then
+if printf '%s' "$cmd" | grep -qE 'git([[:space:]]+-[^[:space:]]+([[:space:]]+[^-[:space:]][^[:space:]]*)?)*[[:space:]]+push[[:space:]]+[^|;&]*(--force|-f)([[:space:]]|$)'; then
   deny 'git push --force はリモートの履歴を壊します。ユーザーが明示的に指示したときだけ使えます。'
 fi
 
-if printf '%s' "$cmd" | grep -qE 'git[[:space:]]+clean[[:space:]]+[^|;&]*-[a-z]*f'; then
+if printf '%s' "$cmd" | grep -qE 'git([[:space:]]+-[^[:space:]]+([[:space:]]+[^-[:space:]][^[:space:]]*)?)*[[:space:]]+clean[[:space:]]+[^|;&]*-[a-z]*f'; then
   deny 'git clean は未追跡のファイルを消します。他の作業中のファイルまで巻き込みます。'
 fi
 

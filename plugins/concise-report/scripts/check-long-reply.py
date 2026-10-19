@@ -7,12 +7,10 @@
 """
 import json
 import os
-import re
 import sys
 
 MAX_LINES = int(os.environ.get('CONCISE_REPORT_MAX_LINES', '25'))
 MAX_CHARS = int(os.environ.get('CONCISE_REPORT_MAX_CHARS', '1500'))
-META = re.compile(r'check-long-reply')
 
 
 def load_rows(path):
@@ -62,7 +60,7 @@ def main():
         reply = last_reply(load_rows(path))
     except OSError:
         return
-    if not reply or META.search(reply):
+    if not reply:
         return
 
     lines = [l for l in reply.splitlines() if l.strip()]

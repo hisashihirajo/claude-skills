@@ -18,6 +18,7 @@ check 'echo の中の DROP は通す'          "echo 'DROP DATABASE は使わな
 check 'docker volume rm を止める'        'docker volume rm app_data'                block
 check 'docker ps は通す'                 'docker ps'                                pass
 check 'git push --force を止める'        'git push --force origin main'             block
+check 'git -C で場所を指定しても止める' 'git -C /srv/app push --force origin main' block
 check 'git push は通す'                  'git push origin main'                     pass
 check 'git clean -fd を止める'           'git clean -fd'                            block
 check '本番の sed -i を止める'           "ssh prod \"sed -i 's/a/b/' /etc/app.conf\"" block
