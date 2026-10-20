@@ -1,30 +1,44 @@
 # claude-skills
 
-Claude Code 用のプラグインとスキルをまとめたリポジトリです。
+English | [日本語](README.ja.md)
 
-## 収録しているもの
+Plugins and skills for Claude Code.
 
-| 名前 | 内容 |
+## Plugins
+
+| Name | What it does |
 |---|---|
-| [japanese-reply](plugins/japanese-reply/) | Claude Code の返答を日本語に保つフック |
-| [concise-report](plugins/concise-report/) | 返答が長すぎたら止めて、結果だけの短い報告に書き直させるフック |
-| [verified-fix](plugins/verified-fix/) | 「直しました」と報告するなら、同じ条件で確かめた事実を書かせるフック |
-| [block-destructive](plugins/block-destructive/) | DB の削除・git push --force・本番の直接編集などを実行前に止めるフック |
+| [japanese-reply](plugins/japanese-reply/README.md) | Keeps Claude Code's replies in Japanese |
+| [concise-report](plugins/concise-report/README.md) | Blocks a reply that is too long and asks for a short, results-only report |
+| [verified-fix](plugins/verified-fix/README.md) | Requires a verified fact behind every "I fixed it" |
+| [block-destructive](plugins/block-destructive/README.md) | Denies DB deletion, git push --force, direct edits on production and similar commands before they run |
 
-## インストール
+## Install
 
-最初に1回だけ、このリポジトリを Claude Code に登録します。
+Add this repository to Claude Code once.
 
 ```
 /plugin marketplace add hisashihirajo/claude-skills
 ```
 
-そのあと、使いたいものを名前で入れます。
+Then install a plugin by name.
 
 ```
-/plugin install japanese-reply@claude-skills
+/plugin install concise-report@claude-skills
 ```
 
-## ライセンス
+## Message language
+
+The messages a hook sends back to Claude exist in both English and Japanese.
+If your locale (`LANG`) is Japanese they are in Japanese, otherwise in English.
+To fix the language, set an environment variable.
+
+```
+export CLAUDE_HOOK_LANG=en
+```
+
+japanese-reply always uses Japanese, since its purpose is to keep replies in Japanese.
+
+## License
 
 MIT

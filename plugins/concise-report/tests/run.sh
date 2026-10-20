@@ -32,5 +32,13 @@ check '行数が多い返答を止める'      "$LONG"  block false
 check '字数が多い返答を止める'      "$WIDE"  block false
 check '書き直しの2回目は止めない'   "$LONG"  pass true
 
+lang_check() {  # $1=CLAUDE_HOOK_LANG $2=注意文に含まれるはずの語
+  transcript "$TMP/t.jsonl" "$LONG"
+  OUT=$(printf '{"transcript_path":"%s"}' "$TMP/t.jsonl" | CLAUDE_HOOK_LANG=$1 python3 "$DIR/scripts/check-long-reply.py")
+  case "$OUT" in *"$2"*) echo "OK   注意文の言語: $1" ;; *) echo "NG   注意文の言語: $1"; FAIL=1 ;; esac
+}
+lang_check ja '書き直して'
+lang_check en 'Rewrite it'
+
 rm -r "$TMP"
 exit $FAIL

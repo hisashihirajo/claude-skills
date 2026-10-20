@@ -32,5 +32,13 @@ check '修正の話でなければ通す'             'ログの出力先を変�
 check '英語の修正報告を止める'             'I fixed the session timeout.' block
 check '英語で Verified があれば通す'       "$(printf 'I fixed the session timeout.\nVerified: logged in with the same account and the page loaded.')" pass
 
+lang_check() {  # $1=CLAUDE_HOOK_LANG $2=注意文に含まれるはずの語
+  transcript "$TMP/t.jsonl" 'I fixed the session timeout.'
+  OUT=$(printf '{"transcript_path":"%s"}' "$TMP/t.jsonl" | CLAUDE_HOOK_LANG=$1 python3 "$DIR/scripts/check-fix-claim.py" 2>&1)
+  case "$OUT" in *"$2"*) echo "OK   注意文の言語: $1" ;; *) echo "NG   注意文の言語: $1"; FAIL=1 ;; esac
+}
+lang_check ja '確認: ◯◯'
+lang_check en 'starting with "Verified:"'
+
 rm -r "$TMP"
 exit $FAIL

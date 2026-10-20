@@ -25,4 +25,12 @@ check '本番の sed -i を止める'           "ssh prod \"sed -i 's/a/b/' /etc
 check '本番を読むだけなら通す'           'ssh prod "cat /etc/app.conf"'             pass
 check '対象外のホストは通す'             "ssh dev \"sed -i 's/a/b/' /etc/app.conf\""  pass
 
+lang_check() {  # $1=CLAUDE_HOOK_LANG $2=注意文に含まれるはずの語
+  OUT=$(python3 -c 'import json; print(json.dumps({"tool_input": {"command": "docker volume rm app_data"}}))' \
+    | CLAUDE_HOOK_LANG=$1 bash "$DIR/scripts/block-destructive.sh")
+  case "$OUT" in *"$2"*) echo "OK   注意文の言語: $1" ;; *) echo "NG   注意文の言語: $1"; FAIL=1 ;; esac
+}
+lang_check ja '消すと戻せません'
+lang_check en 'cannot be undone'
+
 exit $FAIL

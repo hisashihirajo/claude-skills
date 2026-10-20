@@ -1,43 +1,42 @@
 # verified-fix
 
-Claude Code が「直しました」と報告するとき、確かめた事実を書かせるプラグインです。
-別の環境や別の条件で試しただけで「直りました」「動くはずです」と言い切り、ユーザーが試して外れる、を防ぎます。
+English | [日本語](README.ja.md)
 
-## 動き
+A Claude Code plugin that makes Claude back up every "I fixed it" with a fact it actually checked.
+It prevents "fixed" or "should work now" after testing in a different environment or under different conditions, followed by you trying it and finding it still broken.
 
-返答に「直しました」「原因を突き止めました」「動くはずです」などがあれば、次のどちらかの行を求めます（Stop）。
+## How it works
+
+If a reply says things like "I fixed it", "found the root cause" or "it should work now", it must contain one of these lines (Stop hook).
 
 ```
-確認: ユーザーと同じ条件で、何を見て直ったと分かったか
-未確認: 同じ条件で確かめられていないこと
+Verified: what was checked, under the same conditions as your problem
+Unverified: what could not be checked under those conditions
 ```
 
-・どちらの行も無ければ止めて、書き直させます
-・「未確認」を書いたのに「直しました」「はずです」と言い切っていれば、それも止めます
-・英語の返答では `Verified:` / `Unverified:` の行を求めます（"I fixed", "should work" などに反応します）
-・書き直しは1回だけ求めます。2回目は止めません
+・If neither line is there, the reply is blocked and Claude rewrites it
+・If the reply says "Unverified:" but still asserts the fix, that is blocked too
+・Japanese replies use `確認:` / `未確認:` and are checked for phrases such as 「直しました」 and 「はずです」
+・It asks for a rewrite once per turn. The second attempt is never blocked
 
-## インストール
+The message is in English unless your locale is Japanese. Set `CLAUDE_HOOK_LANG=en` or `CLAUDE_HOOK_LANG=ja` to fix it.
+
+## Install
 
 ```
 /plugin marketplace add hisashihirajo/claude-skills
 /plugin install verified-fix@claude-skills
 ```
 
-インストール後、Claude Code を起動し直すと有効になります。
+Restart Claude Code after installing.
 
-## 必要なもの
+## Requirements
 
 ・Claude Code
 ・python3
 
-## テスト
+## Tests
 
 ```
 sh plugins/verified-fix/tests/run.sh
 ```
-
-## English
-
-A Stop hook for fix claims. If a reply says "I fixed it" or "it should work now", it must also contain a `Verified:` line (what was checked, under the same conditions as the user's problem) or an `Unverified:` line.
-With `Unverified:`, the reply may not assert the fix. Japanese replies use `確認:` / `未確認:`.

@@ -1,43 +1,41 @@
 # concise-report
 
-Claude Code の返答が長すぎたら止めて、結果だけの短い報告に書き直させるプラグインです。
-長い作業のあとに、調査の経緯やログの貼り付けで報告が膨らむのを止めます。
+English | [日本語](README.ja.md)
 
-## 動き
+A Claude Code plugin that blocks a reply that is too long and asks Claude to rewrite it as a short, results-only report.
+After long work, reports tend to grow with investigation history and pasted logs. This stops that.
 
-・返答を書き終えたときに、最後の返答が25行か1500字を超えていたら止めます（Stop）
-・止めたときは「何ができるようになったか」「どこで確認できるか」「何をしてほしいか」だけで書き直させます
-・書き直しは1回だけ求めます。2回目は止めません（止まり続けることはありません）
+## How it works
 
-上限は環境変数で変えられます。
+・When Claude finishes a reply, the last reply is blocked if it is longer than 25 lines or 1,500 characters (Stop hook)
+・Claude is asked to rewrite it with only what now works, where to check it, and what it needs from you
+・It asks for a rewrite once per turn. The second attempt is never blocked, so it cannot loop
+
+The limits can be changed with environment variables.
 
 ```
 export CONCISE_REPORT_MAX_LINES=15
 export CONCISE_REPORT_MAX_CHARS=1000
 ```
 
-## インストール
+The message is in English unless your locale is Japanese. Set `CLAUDE_HOOK_LANG=en` or `CLAUDE_HOOK_LANG=ja` to fix it.
+
+## Install
 
 ```
 /plugin marketplace add hisashihirajo/claude-skills
 /plugin install concise-report@claude-skills
 ```
 
-インストール後、Claude Code を起動し直すと有効になります。
+Restart Claude Code after installing.
 
-## 必要なもの
+## Requirements
 
 ・Claude Code
 ・python3
 
-## テスト
+## Tests
 
 ```
 sh plugins/concise-report/tests/run.sh
 ```
-
-## English
-
-A Stop hook that blocks a reply longer than 25 lines or 1,500 characters and asks Claude to rewrite it as a short, results-only report.
-Limits can be changed with `CONCISE_REPORT_MAX_LINES` and `CONCISE_REPORT_MAX_CHARS`.
-It asks for a rewrite once per turn (`stop_hook_active`), so it never loops.

@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-"""Stop。「直しました」「原因を突き止めました」と報告する返答を、確かめた事実が無ければ止める。
+"""Stop hook. Blocks a fix claim ("I fixed it", "it should work now") that has no verified fact behind it.
+Stop フック。「直しました」「原因を突き止めました」と報告する返答を、確かめた事実が無ければ止める。
 
+It prevents "fixed" or "should work" after testing under different conditions, followed by the user trying and failing.
+If the reply claims a fix, it must contain one of these lines:
 別の条件で試しただけで「直りました」「動くはずです」と書き、ユーザーが試して外れる、を防ぐ。
 返答に修正の報告があれば、返答の中に次のどちらかの行を求める。
-  確認: <ユーザーの症状と同じ条件で、何を見て直ったと分かったか>
-  未確認: <同じ条件で確かめられていないこと（と、その理由）>
+  Verified: / 確認:     what was checked, under the same conditions as the user's problem
+  Unverified: / 未確認: what could not be checked under those conditions, and why
+With "Unverified:", the reply may not assert the fix ("Applied a change (unverified)" instead).
 「未確認」を書いた返答では「直しました」と言い切らせない（「対策を入れました（未確認）」の形にする）。
-英語の返答には Verified: / Unverified: を求める。
+
+Message language / 注意文の言語: CLAUDE_HOOK_LANG=ja|en (default: ja if LANG starts with ja, otherwise en)
 """
 import json
 import os
@@ -22,9 +27,33 @@ CLAIM = re.compile(
 )
 CONFIRMED = re.compile(r'^\s*[・\-*]?\s*(?:確認[:：]|Verified:)\s*\S', re.M | re.I)
 UNCONFIRMED = re.compile(r'^\s*[・\-*]?\s*(?:未確認[:：]|Unverified:)\s*\S', re.M | re.I)
-# この決まり自体を論じている行は除く
+# Lines that discuss this rule itself are skipped / この決まり自体を論じている行は除く
 META = re.compile(r'check-fix-claim|verified-fix')
 ASSERT = re.compile(r"(直しました|直りました|解決しました|はずです|\bI(?:'ve)? fixed|should (?:now )?work)", re.I)
+
+MESSAGES = {
+    'ja': {
+        'asserted': '「未確認」と書いたのに、言い切っています。「対策を入れました（未確認）」の形にし、「はずです」を使わないでください。',
+        'missing': '「直した」「原因を突き止めた」と書くなら、ユーザーの症状と同じ条件で確かめた事実を'
+                   '「確認: ◯◯」の1行で書いてください。確かめていないなら「未確認: ◯◯」と書き、言い切らないでください。'
+                   '別の環境や別の条件で試しただけなら、それは未確認です。',
+        'lines': '該当:',
+    },
+    'en': {
+        'asserted': 'The reply says "Unverified:" but still asserts the fix. '
+                    'Write it as "Applied a change (unverified)" and do not say it should work.',
+        'missing': 'If you say it is fixed or you found the cause, add one line starting with "Verified:" '
+                   'that states what you checked under the same conditions as the user\'s problem. '
+                   'If you could not check it, add an "Unverified:" line instead and do not assert the fix. '
+                   'Testing in a different environment or under different conditions counts as unverified.',
+        'lines': 'Lines:',
+    },
+}
+
+
+def lang():
+    v = os.environ.get('CLAUDE_HOOK_LANG') or os.environ.get('LC_ALL') or os.environ.get('LANG') or ''
+    return 'ja' if v.lower().startswith('ja') else 'en'
 
 
 def last_reply(path):
@@ -52,15 +81,11 @@ def problems(text):
     if UNCONFIRMED.search(text):
         asserted = [l for l in claims if ASSERT.search(l)]
         if asserted:
-            return ('「未確認」と書いたのに、言い切っています。「対策を入れました（未確認）」の形にし、'
-                    '「はずです」を使わないでください。', asserted)
+            return 'asserted', asserted
         return None
     if CONFIRMED.search(text):
         return None
-    return ('「直した」「原因を突き止めた」と書くなら、ユーザーの症状と同じ条件で確かめた事実を'
-            '「確認: ◯◯」の1行で書いてください。確かめていないなら「未確認: ◯◯」と書き、言い切らないでください。'
-            '別の環境や別の条件で試しただけなら、それは未確認です。'
-            '（英語の返答なら Verified: / Unverified: の行）', claims)
+    return 'missing', claims
 
 
 def main():
@@ -80,9 +105,10 @@ def main():
     found = problems(text)
     if not found:
         return
-    reason, lines = found
+    kind, lines = found
+    m = MESSAGES[lang()]
     shown = '\n'.join(f'  {s}' for s in lines[:5])
-    print(f'{reason}\n該当:\n{shown}', file=sys.stderr)
+    print(f'{m[kind]}\n{m["lines"]}\n{shown}', file=sys.stderr)
     sys.exit(2)
 
 
