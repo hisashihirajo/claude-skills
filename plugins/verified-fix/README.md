@@ -1,6 +1,6 @@
 # verified-fix
 
-English | [日本語](README.ja.md)
+English | [日本語版 (verified-fix-ja)](../verified-fix-ja/README.md)
 
 A Claude Code plugin that makes Claude back up every "I fixed it" with a fact it actually checked.
 It prevents "fixed" or "should work now" after testing in a different environment or under different conditions, followed by you trying it and finding it still broken.
@@ -14,12 +14,9 @@ Verified: what was checked, under the same conditions as your problem
 Unverified: what could not be checked under those conditions
 ```
 
-・If neither line is there, the reply is blocked and Claude rewrites it
-・If the reply says "Unverified:" but still asserts the fix, that is blocked too
-・Japanese replies use `確認:` / `未確認:` and are checked for phrases such as 「直しました」 and 「はずです」
-・It asks for a rewrite once per turn. The second attempt is never blocked
-
-The message is in English unless your locale is Japanese. Set `CLAUDE_HOOK_LANG=en` or `CLAUDE_HOOK_LANG=ja` to fix it.
+- If neither line is there, the reply is blocked and Claude rewrites it
+- If the reply says "Unverified:" but still asserts the fix, that is blocked too
+- It asks for a rewrite once per turn. The second attempt is never blocked
 
 ## Install
 
@@ -32,8 +29,8 @@ Restart Claude Code after installing.
 
 ## Requirements
 
-・Claude Code
-・python3
+- Claude Code
+- python3
 
 ## Tests
 

@@ -1,14 +1,10 @@
 {
   "name": "concise-report",
-  "version": "1.0.0",
-  "description": "Blocks a reply that is too long and asks for a short, results-only report. / Claude Code の返答が長すぎたら止めて、結果だけの短い報告に書き直させるフック。",
+  "version": "1.1.0",
+  "description": "Blocks a reply that is too long and asks for a short, results-only report.",
   "author": {
     "name": "LIFE SCAPE, K.K."
   },
   "license": "MIT",
-  "keywords": [
-    "report",
-    "length",
-    "hooks"
-  ]
+  "keywords": ["report", "length", "hooks"]
 }

@@ -1,0 +1,16 @@
+{
+  "description": "返答が長すぎたら Stop で止め、結果だけの短い報告に書き直させる。",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/scripts/check-long-reply.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

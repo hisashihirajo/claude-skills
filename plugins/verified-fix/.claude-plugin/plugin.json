@@ -1,14 +1,10 @@
 {
   "name": "verified-fix",
-  "version": "1.0.0",
-  "description": "Requires a verified fact behind every \"I fixed it\". / 「直しました」と報告するなら、ユーザーと同じ条件で確かめた事実を書かせるフック。確かめていなければ言い切らせない。",
+  "version": "1.1.0",
+  "description": "Requires a verified fact behind every \"I fixed it\". Without one, Claude may not assert the fix.",
   "author": {
     "name": "LIFE SCAPE, K.K."
   },
   "license": "MIT",
-  "keywords": [
-    "verification",
-    "report",
-    "hooks"
-  ]
+  "keywords": ["verification", "report", "hooks"]
 }

@@ -1,6 +1,6 @@
-# concise-report
+# concise-report-ja
 
-[English](README.md) | 日本語
+[English (concise-report)](../concise-report/README.md) | 日本語
 
 Claude Code の返答が長すぎたら止めて、結果だけの短い報告に書き直させるプラグインです。
 長い作業のあとに、調査の経緯やログの貼り付けで報告が膨らむのを止めます。
@@ -18,16 +18,15 @@ export CONCISE_REPORT_MAX_LINES=15
 export CONCISE_REPORT_MAX_CHARS=1000
 ```
 
-注意文は、パソコンの言語設定が日本語なら日本語で出ます。決めて使いたいときは `CLAUDE_HOOK_LANG=ja` か `CLAUDE_HOOK_LANG=en` を指定します。
-
 ## インストール
 
 ```
 /plugin marketplace add hisashihirajo/claude-skills
-/plugin install concise-report@claude-skills
+/plugin install concise-report-ja@claude-skills
 ```
 
 インストール後、Claude Code を起動し直すと有効になります。
+英語版の concise-report と一緒に入れる必要はありません。
 
 ## 必要なもの
 
@@ -37,5 +36,5 @@ export CONCISE_REPORT_MAX_CHARS=1000
 ## テスト
 
 ```
-sh plugins/concise-report/tests/run.sh
+sh plugins/concise-report-ja/tests/run.sh
 ```

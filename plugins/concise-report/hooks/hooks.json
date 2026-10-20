@@ -1,5 +1,5 @@
 {
-  "description": "返答が長すぎたら Stop で止め、結果だけの短い報告に書き直させる。",
+  "description": "Blocks a reply that is too long on Stop and asks for a short, results-only report.",
   "hooks": {
     "Stop": [
       {

@@ -1,5 +1,5 @@
 {
-  "description": "DB の削除、Docker のボリューム削除、git push --force / clean、本番サーバの直接編集を PreToolUse で止める。",
+  "description": "Denies DB deletion, Docker volume removal, git push --force / clean, and direct edits on production on PreToolUse.",
   "hooks": {
     "PreToolUse": [
       {

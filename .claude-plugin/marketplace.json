@@ -5,24 +5,39 @@
   },
   "plugins": [
     {
-      "name": "japanese-reply",
-      "source": "./plugins/japanese-reply",
-      "description": "Keeps Claude Code replies in Japanese. / Claude Code の返答を日本語に保つフック"
-    },
-    {
       "name": "concise-report",
       "source": "./plugins/concise-report",
-      "description": "Blocks a reply that is too long and asks for a short, results-only report. / 返答が長すぎたら止めて、結果だけの短い報告に書き直させるフック"
+      "description": "Blocks a reply that is too long and asks for a short, results-only report"
     },
     {
       "name": "verified-fix",
       "source": "./plugins/verified-fix",
-      "description": "Requires a verified fact behind every \"I fixed it\". / 「直しました」と報告するなら、同じ条件で確かめた事実を書かせるフック"
+      "description": "Requires a verified fact behind every \"I fixed it\""
     },
     {
       "name": "block-destructive",
       "source": "./plugins/block-destructive",
-      "description": "Denies DB deletion, git push --force, direct edits on production and similar commands before they run. / DB の削除・git push --force・本番の直接編集などを実行前に止めるフック"
+      "description": "Denies DB deletion, git push --force, direct edits on production and similar commands before they run"
+    },
+    {
+      "name": "japanese-reply",
+      "source": "./plugins/japanese-reply",
+      "description": "Claude Code の返答を日本語に保つフック"
+    },
+    {
+      "name": "concise-report-ja",
+      "source": "./plugins/concise-report-ja",
+      "description": "返答が長すぎたら止めて、結果だけの短い報告に書き直させるフック（日本語版）"
+    },
+    {
+      "name": "verified-fix-ja",
+      "source": "./plugins/verified-fix-ja",
+      "description": "「直しました」と報告するなら、同じ条件で確かめた事実を書かせるフック（日本語版）"
+    },
+    {
+      "name": "block-destructive-ja",
+      "source": "./plugins/block-destructive-ja",
+      "description": "DB の削除・git push --force・本番の直接編集などを実行前に止めるフック（日本語版）"
     }
   ]
 }

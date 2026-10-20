@@ -1,0 +1,10 @@
+{
+  "name": "block-destructive-ja",
+  "version": "1.0.0",
+  "description": "取り返しがつかない操作（DB の削除、Docker のボリューム削除、git push --force、本番サーバの直接編集）を実行前に止めるフック（日本語版）。",
+  "author": {
+    "name": "LIFE SCAPE, K.K."
+  },
+  "license": "MIT",
+  "keywords": ["safety", "database", "git", "hooks", "japanese"]
+}

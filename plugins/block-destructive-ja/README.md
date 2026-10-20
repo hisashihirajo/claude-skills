@@ -1,6 +1,6 @@
-# block-destructive
+# block-destructive-ja
 
-[English](README.md) | 日本語
+[English (block-destructive)](../block-destructive/README.md) | 日本語
 
 取り返しがつかない操作を、Claude Code が実行する前に止めるプラグインです。
 CLAUDE.md に「消すな」と書いても、長い作業の終盤や急いでいるときほど守られません。
@@ -23,8 +23,6 @@ DB のクライアント（psql など）に渡す形か、コマンドの先頭
 export BLOCK_DESTRUCTIVE_SSH_HOSTS="prod web1"
 ```
 
-注意文は、パソコンの言語設定が日本語なら日本語で出ます。決めて使いたいときは `CLAUDE_HOOK_LANG=ja` か `CLAUDE_HOOK_LANG=en` を指定します。
-
 ## 限界
 
 コマンドの文字列で見分けているので、すり抜ける書き方はあります。
@@ -35,7 +33,7 @@ export BLOCK_DESTRUCTIVE_SSH_HOSTS="prod web1"
 
 ```
 /plugin marketplace add hisashihirajo/claude-skills
-/plugin install block-destructive@claude-skills
+/plugin install block-destructive-ja@claude-skills
 ```
 
 インストール後、Claude Code を起動し直すと有効になります。
@@ -48,5 +46,5 @@ export BLOCK_DESTRUCTIVE_SSH_HOSTS="prod web1"
 ## テスト
 
 ```
-sh plugins/block-destructive/tests/run.sh
+sh plugins/block-destructive-ja/tests/run.sh
 ```
